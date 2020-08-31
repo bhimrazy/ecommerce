@@ -3,6 +3,7 @@ import 'package:carousel_pro/carousel_pro.dart';
 
 //myOwn imports
 import 'package:ecommerce/components/horizontal_listview.dart';
+import 'package:ecommerce/components/products.dart';
 
 void main() => runApp(MaterialApp(
       title: "Ecommerce",
@@ -31,8 +32,9 @@ class _HomePageState extends State<HomePage> {
           AssetImage('assets/images/carousel/w4.jpg'),
         ],
         autoplay: false,
-        dotSize: 4.0,
+        dotSize: 5.0,
         indicatorBgPadding: 10.0,
+        dotBgColor: Colors.transparent,
         animationCurve: Curves.fastOutSlowIn,
         animationDuration: Duration(milliseconds: 1000),
       ),
@@ -85,35 +87,50 @@ class _HomePageState extends State<HomePage> {
               onTap: () {},
               child: ListTile(
                 title: Text('Home Page'),
-                leading: Icon(Icons.home),
+                leading: Icon(
+                  Icons.home,
+                  color: Colors.red,
+                ),
               ),
             ),
             InkWell(
               onTap: () {},
               child: ListTile(
                 title: Text('My Account'),
-                leading: Icon(Icons.person),
+                leading: Icon(
+                  Icons.person,
+                  color: Colors.red,
+                ),
               ),
             ),
             InkWell(
               onTap: () {},
               child: ListTile(
                 title: Text('My Orders'),
-                leading: Icon(Icons.shopping_basket),
+                leading: Icon(
+                  Icons.shopping_basket,
+                  color: Colors.red,
+                ),
               ),
             ),
             InkWell(
               onTap: () {},
               child: ListTile(
-                title: Text('Categories'),
-                leading: Icon(Icons.dashboard),
+                title: Text('Shopping Cart'),
+                leading: Icon(
+                  Icons.shopping_cart,
+                  color: Colors.red,
+                ),
               ),
             ),
             InkWell(
               onTap: () {},
               child: ListTile(
                 title: Text('Favourites'),
-                leading: Icon(Icons.favorite),
+                leading: Icon(
+                  Icons.favorite,
+                  color: Colors.red,
+                ),
               ),
             ),
             Divider(),
@@ -123,7 +140,6 @@ class _HomePageState extends State<HomePage> {
                 title: Text('Settings'),
                 leading: Icon(
                   Icons.settings,
-                  color: Colors.blue,
                 ),
               ),
             ),
@@ -133,7 +149,6 @@ class _HomePageState extends State<HomePage> {
                 title: Text('About'),
                 leading: Icon(
                   Icons.help,
-                  color: Colors.blue,
                 ),
               ),
             ),
@@ -148,14 +163,27 @@ class _HomePageState extends State<HomePage> {
           //paddingWidget
           Padding(
             padding: const EdgeInsets.all(20.0),
-            child: Text('Categories'),
+            child: Text(
+              'Categories',
+              style: TextStyle(fontWeight: FontWeight.w500),
+            ),
           ),
           //Horizontal List View begins Here
           HorizontalList(),
+
           //paddingWidget
           Padding(
             padding: const EdgeInsets.all(20.0),
-            child: Text('Recent Products'),
+            child: Text(
+              'Recent Products',
+              style: TextStyle(fontWeight: FontWeight.w500),
+            ),
+          ),
+
+          //grid view
+          Container(
+            height: 650,
+            child: Products(),
           ),
         ],
       ),
