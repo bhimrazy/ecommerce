@@ -4,6 +4,7 @@ import 'package:carousel_pro/carousel_pro.dart';
 //myOwn imports
 import 'package:ecommerce/components/horizontal_listview.dart';
 import 'package:ecommerce/components/products.dart';
+import 'package:ecommerce/pages/cart.dart';
 
 void main() => runApp(MaterialApp(
       title: "Ecommerce",
@@ -57,7 +58,10 @@ class _HomePageState extends State<HomePage> {
                 Icons.shopping_cart,
                 color: Colors.white,
               ),
-              onPressed: () {})
+              onPressed: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Cart()));
+              })
         ],
       ),
       drawer: Drawer(
@@ -114,7 +118,10 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Cart()));
+              },
               child: ListTile(
                 title: Text('Shopping Cart'),
                 leading: Icon(
@@ -182,7 +189,7 @@ class _HomePageState extends State<HomePage> {
 
           //grid view
           Container(
-            height: 650,
+            height: 400,
             child: Products(),
           ),
         ],
