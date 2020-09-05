@@ -1,4 +1,4 @@
-import 'package:ecommerce/main.dart';
+import 'package:ecommerce/pages/home.dart';
 import 'package:flutter/material.dart';
 
 class ProductDetails extends StatefulWidget {
