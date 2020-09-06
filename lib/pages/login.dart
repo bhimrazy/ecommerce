@@ -123,15 +123,15 @@ class _LoginState extends State<Login> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Material(
-                      borderRadius: BorderRadius.circular(20.0),
-                      color: Colors.white.withOpacity(0.5),
+                      borderRadius: BorderRadius.circular(10.0),
+                      color: Colors.white.withOpacity(0.8),
                       elevation: 0.0,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 12.0),
                         child: TextFormField(
                             decoration: InputDecoration(
                               hintText: "Email",
-                              icon: Icon(Icons.email),
+                              icon: Icon(Icons.alternate_email),
                             ),
                             keyboardType: TextInputType.emailAddress,
                             controller: _emailTextController,
@@ -151,8 +151,8 @@ class _LoginState extends State<Login> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Material(
-                      borderRadius: BorderRadius.circular(20.0),
-                      color: Colors.white.withOpacity(0.5),
+                      borderRadius: BorderRadius.circular(10.0),
+                      color: Colors.white.withOpacity(0.8),
                       elevation: 0.0,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 12.0),
@@ -178,7 +178,7 @@ class _LoginState extends State<Login> {
                     padding: const EdgeInsets.all(8.0),
                     child: Material(
                         borderRadius: BorderRadius.circular(20.0),
-                        color: Colors.blue.withOpacity(0.8),
+                        color: Colors.blue.withOpacity(0.9),
                         elevation: 0.0,
                         child: MaterialButton(
                             onPressed: () {},
@@ -188,9 +188,37 @@ class _LoginState extends State<Login> {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Colors.white,
-                                  fontWeight: FontWeight.bold),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.0),
                             ))),
-                  )
+                  ),
+                  Divider(
+                    color: Colors.white,
+                  ),
+                  Text(
+                    "Other Login Option",
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  //=============================Google Login Button=================================//
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Material(
+                        borderRadius: BorderRadius.circular(20.0),
+                        color: Colors.red.withOpacity(0.9),
+                        elevation: 0.0,
+                        child: MaterialButton(
+                            onPressed: () {},
+                            minWidth: MediaQuery.of(context).size.width,
+                            child: Text(
+                              "Goole SignIn",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.0),
+                            ))),
+                  ),
                 ],
               ),
             )),
