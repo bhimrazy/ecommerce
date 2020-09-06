@@ -1,92 +1,21 @@
-import 'package:ecommerce/pages/home.dart';
-import 'package:ecommerce/pages/signup.dart';
-import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
-class Login extends StatefulWidget {
+class SignUp extends StatefulWidget {
   @override
-  _LoginState createState() => _LoginState();
+  _SignUpState createState() => _SignUpState();
 }
 
-class _LoginState extends State<Login> {
-  final GoogleSignIn googleSignIn = GoogleSignIn();
+class _SignUpState extends State<SignUp> {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
+  TextEditingController _nameTextController = TextEditingController();
   TextEditingController _emailTextController = TextEditingController();
   TextEditingController _passwordTextController = TextEditingController();
-  SharedPreferences preferences;
+  TextEditingController _confirmPasswordController = TextEditingController();
+  String gender;
   bool loading = false;
-  bool isLoggedIn = false;
   @override
-  void initState() {
-    super.initState();
-    isSignedIn();
-  }
-
-  void isSignedIn() async {
-    setState(() {
-      loading = true;
-    });
-    preferences = await SharedPreferences.getInstance();
-    isLoggedIn = await googleSignIn.isSignedIn();
-    if (isLoggedIn) {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => HomePage()));
-    }
-    setState(() {
-      loading = false;
-    });
-  }
-
-  Future handleSignIn() async {
-    preferences = await SharedPreferences.getInstance();
-    setState(() {
-      loading = true;
-    });
-    GoogleSignInAccount googleUser = await googleSignIn.signIn();
-    GoogleSignInAuthentication googleSignInAuthentication =
-        await googleUser.authentication;
-    final AuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleSignInAuthentication.accessToken,
-      idToken: googleSignInAuthentication.idToken,
-    );
-    final UserCredential authResult =
-        await firebaseAuth.signInWithCredential(credential);
-    final User user = authResult.user;
-    if (user != null) {
-      final QuerySnapshot result = await FirebaseFirestore.instance
-          .collection("users")
-          .where("id", isEqualTo: user.uid)
-          .get();
-      final List<DocumentSnapshot> docs = result.docs;
-      if (docs.length == 0) {
-        //insert to the user to our collection
-        FirebaseFirestore.instance.collection("users").doc(user.uid).set({
-          "id": user.uid,
-          "username": user.displayName,
-          "profilePicture": user.photoURL,
-        });
-        await preferences.setString("id", user.uid);
-        await preferences.setString("username", user.displayName);
-        await preferences.setString("photoUrl", user.photoURL);
-      } else {
-        await preferences.setString("id", docs[0].data()['id']);
-        await preferences.setString("username", docs[0].data()['username']);
-        await preferences.setString("photoUrl", docs[0].data()['photoUrl']);
-      }
-      Fluttertoast.showToast(msg: "Login was successfull");
-      setState(() {
-        loading = false;
-      });
-    } else {
-      Fluttertoast.showToast(msg: "Login failed :(");
-    }
-  }
-
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(
@@ -103,7 +32,7 @@ class _LoginState extends State<Login> {
           height: double.infinity,
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 200.0),
+          padding: const EdgeInsets.only(top: 100.0),
           child: Container(
               alignment: Alignment.topCenter,
               child: Image.asset(
@@ -114,15 +43,41 @@ class _LoginState extends State<Login> {
         ),
 //=============================FORM=================================//
         Padding(
-          padding: const EdgeInsets.only(top: 300.0),
+          padding: const EdgeInsets.only(top: 200.0),
           child: Center(
               child: Form(
             key: _formKey,
             child: ListView(
               children: <Widget>[
+                //=============================NAME=================================//
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(14.0, 8.0, 14.0, 8.0),
+                  child: Material(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Colors.white.withOpacity(0.8),
+                    elevation: 0.0,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 12.0),
+                      child: TextFormField(
+                          decoration: InputDecoration(
+                            hintText: "Name",
+                            icon: Icon(Icons.person),
+                          ),
+                          controller: _nameTextController,
+                          validator: (value) {
+                            if (value.isEmpty)
+                              return 'The name field cannot be empty';
+                            else if (value.length < 5)
+                              return 'The name has to be atleast 5 characters long';
+                            else
+                              return null;
+                          }),
+                    ),
+                  ),
+                ),
                 //=============================EMAIL=================================//
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.fromLTRB(14.0, 8.0, 14.0, 8.0),
                   child: Material(
                     borderRadius: BorderRadius.circular(10.0),
                     color: Colors.white.withOpacity(0.8),
@@ -150,7 +105,7 @@ class _LoginState extends State<Login> {
                 ),
                 //=============================PASSWORD=================================//
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.fromLTRB(14.0, 8.0, 14.0, 8.0),
                   child: Material(
                     borderRadius: BorderRadius.circular(10.0),
                     color: Colors.white.withOpacity(0.8),
@@ -174,9 +129,35 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                 ),
-                //=============================Login Button=================================//
+                //=============================CONFIRM PASSWORD=================================//
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.fromLTRB(14.0, 8.0, 14.0, 8.0),
+                  child: Material(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Colors.white.withOpacity(0.8),
+                    elevation: 0.0,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 12.0),
+                      child: TextFormField(
+                          decoration: InputDecoration(
+                            hintText: "Confirm Password",
+                            icon: Icon(Icons.lock_outline),
+                          ),
+                          controller: _confirmPasswordController,
+                          validator: (value) {
+                            if (value.isEmpty)
+                              return 'The password field cannot be empty';
+                            else if (value.length < 8)
+                              return 'The password has to be atleast 8 characters long';
+                            else
+                              return null;
+                          }),
+                    ),
+                  ),
+                ),
+                //=============================SignUp Button=================================//
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(14.0, 8.0, 14.0, 8.0),
                   child: Material(
                       borderRadius: BorderRadius.circular(20.0),
                       color: Colors.blue.withOpacity(0.9),
@@ -185,7 +166,7 @@ class _LoginState extends State<Login> {
                           onPressed: () {},
                           minWidth: MediaQuery.of(context).size.width,
                           child: Text(
-                            "Login",
+                            "Register",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Colors.white,
@@ -193,23 +174,15 @@ class _LoginState extends State<Login> {
                                 fontSize: 20.0),
                           ))),
                 ),
-                //=============================Forgot Password=================================//
-                Center(
-                  child: Text(
-                    "Forgot password?",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
                 //=============================Goto register=================================//
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.fromLTRB(14.0, 8.0, 14.0, 8.0),
                   child: InkWell(
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => SignUp()));
+                      Navigator.pop(context);
                     },
                     child: Text(
-                      "Don't have an account? Click here to SignUp",
+                      "LogIn",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.white,
@@ -232,15 +205,13 @@ class _LoginState extends State<Login> {
                 ),
                 //=============================Google Login Button=================================//
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.fromLTRB(14.0, 8.0, 14.0, 8.0),
                   child: Material(
                       borderRadius: BorderRadius.circular(20.0),
                       color: Colors.red.withOpacity(0.9),
                       elevation: 0.0,
                       child: MaterialButton(
-                          onPressed: () {
-                            handleSignIn();
-                          },
+                          onPressed: () {},
                           minWidth: MediaQuery.of(context).size.width,
                           child: Text(
                             "Goole SignIn",
@@ -269,4 +240,3 @@ class _LoginState extends State<Login> {
     ));
   }
 }
-//=============================VALIDATION=================================//
