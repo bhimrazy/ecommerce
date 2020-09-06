@@ -14,6 +14,9 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final GoogleSignIn googleSignIn = GoogleSignIn();
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController _emailTextController = TextEditingController();
+  TextEditingController _passwordTextController = TextEditingController();
   SharedPreferences preferences;
   bool loading = false;
   bool isLoggedIn = false;
@@ -85,29 +88,122 @@ class _LoginState extends State<Login> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        title: Text('Login In'),
-      ),
       body: Stack(
         children: <Widget>[
-          Center(
-            child: FlatButton(
-                onPressed: () {
-                  handleSignIn();
-                },
-                child: Text('Sign In/Sign Up')),
+          Image.asset(
+            "assets/images/login.jpg",
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
+          ),
+          Container(
+            color: Colors.black.withOpacity(0.5),
+            width: double.infinity,
+            height: double.infinity,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 150.0),
+            child: Container(
+                alignment: Alignment.topCenter,
+                child: Image.asset(
+                  "assets/images/logo.png",
+                  width: 150.0,
+                  height: 150.0,
+                )),
+          ),
+//=============================FORM=================================//
+          Padding(
+            padding: const EdgeInsets.only(top: 400.0),
+            child: Center(
+                child: Form(
+              key: _formKey,
+              child: Column(
+                children: <Widget>[
+                  //=============================EMAIL=================================//
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Material(
+                      borderRadius: BorderRadius.circular(20.0),
+                      color: Colors.white.withOpacity(0.5),
+                      elevation: 0.0,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 12.0),
+                        child: TextFormField(
+                            decoration: InputDecoration(
+                              hintText: "Email",
+                              icon: Icon(Icons.email),
+                            ),
+                            keyboardType: TextInputType.emailAddress,
+                            controller: _emailTextController,
+                            validator: (value) {
+                              Pattern pattern =
+                                  r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                              RegExp regex = new RegExp(pattern);
+                              if (!regex.hasMatch(value))
+                                return 'Enter Valid Email';
+                              else
+                                return null;
+                            }),
+                      ),
+                    ),
+                  ),
+                  //=============================PASSWORD=================================//
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Material(
+                      borderRadius: BorderRadius.circular(20.0),
+                      color: Colors.white.withOpacity(0.5),
+                      elevation: 0.0,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 12.0),
+                        child: TextFormField(
+                            decoration: InputDecoration(
+                              hintText: "Password",
+                              icon: Icon(Icons.lock_outline),
+                            ),
+                            controller: _passwordTextController,
+                            validator: (value) {
+                              if (value.length < 8)
+                                return 'The password field cannot be empty';
+                              else if (value.isEmpty)
+                                return 'The password has to be atleast 8 characters long';
+                              else
+                                return null;
+                            }),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            )),
           ),
           Visibility(
               visible: loading ?? true,
-              child: Container(
-                  color: Colors.white.withOpacity(0.7),
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
-                  )))
+              child: Center(
+                child: Container(
+                    alignment: Alignment.center,
+                    color: Colors.white.withOpacity(0.7),
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
+                    )),
+              ))
         ],
       ),
+      bottomNavigationBar: Container(
+          child: Padding(
+        padding: const EdgeInsets.only(
+            left: 12.0, right: 12.0, top: 8.0, bottom: 8.0),
+        child: FlatButton(
+            color: Colors.red.shade900,
+            onPressed: () {
+              handleSignIn();
+            },
+            child: Text(
+              "Sign In / Sign Up with Google",
+              style: TextStyle(color: Colors.white),
+            )),
+      )),
     );
   }
 }
+//=============================VALIDATION=================================//

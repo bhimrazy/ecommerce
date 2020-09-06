@@ -50,6 +50,7 @@ flutter:
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
   assets:
+    - assets/images/
     - assets/images/carousel/
     - assets/images/categories/
     - assets/images/products/
