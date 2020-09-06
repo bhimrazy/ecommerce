@@ -102,18 +102,18 @@ class _LoginState extends State<Login> {
             height: double.infinity,
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 150.0),
+            padding: const EdgeInsets.only(top: 200.0),
             child: Container(
                 alignment: Alignment.topCenter,
                 child: Image.asset(
                   "assets/images/logo.png",
-                  width: 150.0,
-                  height: 150.0,
+                  width: 80.0,
+                  height: 80.0,
                 )),
           ),
 //=============================FORM=================================//
           Padding(
-            padding: const EdgeInsets.only(top: 400.0),
+            padding: const EdgeInsets.only(top: 300.0),
             child: Center(
                 child: Form(
               key: _formKey,
@@ -172,6 +172,24 @@ class _LoginState extends State<Login> {
                             }),
                       ),
                     ),
+                  ),
+                  //=============================Login Button=================================//
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Material(
+                        borderRadius: BorderRadius.circular(20.0),
+                        color: Colors.blue.withOpacity(0.8),
+                        elevation: 0.0,
+                        child: MaterialButton(
+                            onPressed: () {},
+                            minWidth: MediaQuery.of(context).size.width,
+                            child: Text(
+                              "Login",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ))),
                   )
                 ],
               ),
