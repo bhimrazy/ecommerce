@@ -60,8 +60,8 @@ class _SignUpState extends State<SignUp> {
                       padding: const EdgeInsets.only(left: 12.0),
                       child: TextFormField(
                           decoration: InputDecoration(
-                            hintText: "Name",
-                            icon: Icon(Icons.person),
+                            hintText: "Full Name",
+                            icon: Icon(Icons.person_outline),
                           ),
                           controller: _nameTextController,
                           validator: (value) {
@@ -174,7 +174,11 @@ class _SignUpState extends State<SignUp> {
                                 fontSize: 20.0),
                           ))),
                 ),
-                //=============================Goto register=================================//
+                //=============================Divider=================================//
+                Divider(
+                  color: Colors.white,
+                ),
+                //=============================Goto Login=================================//
                 Padding(
                   padding: const EdgeInsets.fromLTRB(14.0, 8.0, 14.0, 8.0),
                   child: InkWell(
@@ -190,37 +194,6 @@ class _SignUpState extends State<SignUp> {
                           fontSize: 16.0),
                     ),
                   ),
-                ),
-                //=============================Divider=================================//
-                Divider(
-                  color: Colors.white,
-                ),
-                //=============================Google login Option=================================//
-                Center(
-                  child: Text(
-                    "Other Login Option",
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                //=============================Google Login Button=================================//
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(14.0, 8.0, 14.0, 8.0),
-                  child: Material(
-                      borderRadius: BorderRadius.circular(20.0),
-                      color: Colors.red.withOpacity(0.9),
-                      elevation: 0.0,
-                      child: MaterialButton(
-                          onPressed: () {},
-                          minWidth: MediaQuery.of(context).size.width,
-                          child: Text(
-                            "Goole SignIn",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20.0),
-                          ))),
                 ),
               ],
             ),
