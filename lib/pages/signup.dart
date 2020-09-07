@@ -114,24 +114,28 @@ class _SignUpState extends State<SignUp> {
                     elevation: 0.0,
                     child: Padding(
                       padding: const EdgeInsets.only(left: 12.0),
-                      child: TextFormField(
-                          decoration: InputDecoration(
-                            hintText: "Password",
-                            icon: Icon(Icons.lock_outline),
-                            border: InputBorder.none,
-                          ),
-                          controller: _passwordTextController,
-                          obscureText: true,
-                          validator: (value) {
-                            if (value.isEmpty)
-                              return 'The password field cannot be empty';
-                            else if (value.length < 8)
-                              return 'The password has to be atleast 8 characters long';
-                            else if (_passwordTextController.text != value)
-                              return 'the password do not match';
-                            else
-                              return null;
-                          }),
+                      child: ListTile(
+                        title: TextFormField(
+                            decoration: InputDecoration(
+                              hintText: "Password",
+                              icon: Icon(Icons.lock_outline),
+                              border: InputBorder.none,
+                            ),
+                            controller: _passwordTextController,
+                            obscureText: true,
+                            validator: (value) {
+                              if (value.isEmpty)
+                                return 'The password field cannot be empty';
+                              else if (value.length < 8)
+                                return 'The password has to be atleast 8 characters long';
+                              else if (_passwordTextController.text != value)
+                                return 'the password do not match';
+                              else
+                                return null;
+                            }),
+                        trailing: IconButton(
+                            icon: Icon(Icons.remove_red_eye), onPressed: () {}),
+                      ),
                     ),
                   ),
                 ),
@@ -144,21 +148,26 @@ class _SignUpState extends State<SignUp> {
                     elevation: 0.0,
                     child: Padding(
                       padding: const EdgeInsets.only(left: 12.0),
-                      child: TextFormField(
-                          decoration: InputDecoration(
-                            hintText: "Confirm Password",
-                            icon: Icon(Icons.lock_outline),
-                          ),
-                          controller: _confirmPasswordController,
-                          obscureText: true,
-                          validator: (value) {
-                            if (value.isEmpty)
-                              return 'The password field cannot be empty';
-                            else if (value.length < 8)
-                              return 'The password has to be atleast 8 characters long';
-                            else
-                              return null;
-                          }),
+                      child: ListTile(
+                        title: TextFormField(
+                            decoration: InputDecoration(
+                              hintText: "Confirm Password",
+                              icon: Icon(Icons.lock_outline),
+                              border: InputBorder.none,
+                            ),
+                            controller: _confirmPasswordController,
+                            obscureText: true,
+                            validator: (value) {
+                              if (value.isEmpty)
+                                return 'The password field cannot be empty';
+                              else if (value.length < 8)
+                                return 'The password has to be atleast 8 characters long';
+                              else
+                                return null;
+                            }),
+                        trailing: IconButton(
+                            icon: Icon(Icons.remove_red_eye), onPressed: () {}),
+                      ),
                     ),
                   ),
                 ),
