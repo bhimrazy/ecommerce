@@ -191,10 +191,12 @@ class _SignUpState extends State<SignUp> {
                       color: Colors.blue.withOpacity(0.9),
                       elevation: 0.0,
                       child: MaterialButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            validateForm();
+                          },
                           minWidth: MediaQuery.of(context).size.width,
                           child: Text(
-                            "Register",
+                            "Sign Up",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Colors.white,
@@ -239,5 +241,11 @@ class _SignUpState extends State<SignUp> {
             ))
       ],
     ));
+  }
+
+  //=====================CUSTOM METHODS======================== /
+  void validateForm() {
+    FormState formState = _formKey.currentState;
+    if (formState.validate()) {}
   }
 }
