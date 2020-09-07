@@ -62,6 +62,7 @@ class _SignUpState extends State<SignUp> {
                           decoration: InputDecoration(
                             hintText: "Full Name",
                             icon: Icon(Icons.person_outline),
+                            border: InputBorder.none,
                           ),
                           controller: _nameTextController,
                           validator: (value) {
@@ -88,6 +89,7 @@ class _SignUpState extends State<SignUp> {
                           decoration: InputDecoration(
                             hintText: "Email",
                             icon: Icon(Icons.alternate_email),
+                            border: InputBorder.none,
                           ),
                           keyboardType: TextInputType.emailAddress,
                           controller: _emailTextController,
@@ -116,13 +118,17 @@ class _SignUpState extends State<SignUp> {
                           decoration: InputDecoration(
                             hintText: "Password",
                             icon: Icon(Icons.lock_outline),
+                            border: InputBorder.none,
                           ),
                           controller: _passwordTextController,
+                          obscureText: true,
                           validator: (value) {
                             if (value.isEmpty)
                               return 'The password field cannot be empty';
                             else if (value.length < 8)
                               return 'The password has to be atleast 8 characters long';
+                            else if (_passwordTextController.text != value)
+                              return 'the password do not match';
                             else
                               return null;
                           }),
@@ -144,6 +150,7 @@ class _SignUpState extends State<SignUp> {
                             icon: Icon(Icons.lock_outline),
                           ),
                           controller: _confirmPasswordController,
+                          obscureText: true,
                           validator: (value) {
                             if (value.isEmpty)
                               return 'The password field cannot be empty';
