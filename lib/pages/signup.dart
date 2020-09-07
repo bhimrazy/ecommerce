@@ -13,8 +13,10 @@ class _SignUpState extends State<SignUp> {
   TextEditingController _emailTextController = TextEditingController();
   TextEditingController _passwordTextController = TextEditingController();
   TextEditingController _confirmPasswordController = TextEditingController();
-  String gender;
+  //String gender;
   bool loading = false;
+  bool hidePass = true;
+  bool confHidePass = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -122,7 +124,7 @@ class _SignUpState extends State<SignUp> {
                               border: InputBorder.none,
                             ),
                             controller: _passwordTextController,
-                            obscureText: true,
+                            obscureText: confHidePass,
                             validator: (value) {
                               if (value.isEmpty)
                                 return 'The password field cannot be empty';
@@ -134,7 +136,12 @@ class _SignUpState extends State<SignUp> {
                                 return null;
                             }),
                         trailing: IconButton(
-                            icon: Icon(Icons.remove_red_eye), onPressed: () {}),
+                            icon: Icon(Icons.remove_red_eye),
+                            onPressed: () {
+                              setState(() {
+                                confHidePass = confHidePass ? false : true;
+                              });
+                            }),
                       ),
                     ),
                   ),
@@ -156,7 +163,7 @@ class _SignUpState extends State<SignUp> {
                               border: InputBorder.none,
                             ),
                             controller: _confirmPasswordController,
-                            obscureText: true,
+                            obscureText: hidePass,
                             validator: (value) {
                               if (value.isEmpty)
                                 return 'The password field cannot be empty';
@@ -166,7 +173,12 @@ class _SignUpState extends State<SignUp> {
                                 return null;
                             }),
                         trailing: IconButton(
-                            icon: Icon(Icons.remove_red_eye), onPressed: () {}),
+                            icon: Icon(Icons.remove_red_eye),
+                            onPressed: () {
+                              setState(() {
+                                hidePass = hidePass ? false : true;
+                              });
+                            }),
                       ),
                     ),
                   ),
