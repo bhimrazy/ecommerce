@@ -257,11 +257,11 @@ class _SignUpState extends State<SignUp> {
                 email: _emailTextController.text,
                 password: _passwordTextController.text)
             .then((user) => {
-                  _userServices.createUser({
-                    "username": user.user.displayName,
-                    "email": user.user.email,
-                    "userId": user.user.uid,
-                  })
+                  // _userServices.createUser({
+                  //   "username": user.user.displayName,
+                  //   "email": user.user.email,
+                  //   "userId": user.user.uid,
+                  // })
                 });
       }
     }
