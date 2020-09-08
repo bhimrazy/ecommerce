@@ -1,3 +1,4 @@
+import 'package:ecommerce/db/users.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,7 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
+  UserServices _userServices = UserServices();
   TextEditingController _nameTextController = TextEditingController();
   TextEditingController _emailTextController = TextEditingController();
   TextEditingController _passwordTextController = TextEditingController();
@@ -244,8 +246,24 @@ class _SignUpState extends State<SignUp> {
   }
 
   //=====================CUSTOM METHODS======================== /
-  void validateForm() {
+  void validateForm() async {
     FormState formState = _formKey.currentState;
-    if (formState.validate()) {}
+    if (formState.validate()) {
+      User user = FirebaseAuth.instance.currentUser;
+
+      if (user == null) {
+        UserCredential userCredential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(
+                email: _emailTextController.text,
+                password: _passwordTextController.text)
+            .then((user) => {
+                  _userServices.createUser({
+                    "username": user.user.displayName,
+                    "email": user.user.email,
+                    "userId": user.user.uid,
+                  })
+                });
+      }
+    }
   }
 }
